@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ay.it.asp.dao.TopicMapper" >
+  <resultMap id="topicResultMap" type="ay.it.asp.entity.Topic" >
+    <id column="top_id" property="topId" jdbcType="VARCHAR" />
+    <result column="tea_id" property="teaId" jdbcType="VARCHAR" />
+    <result column="top_type" property="topType" jdbcType="VARCHAR" />
+    <result column="top_knowledge" property="topKnowledge" jdbcType="VARCHAR" />
+    <result column="top_nandu" property="topNandu" jdbcType="VARCHAR" />
+    <result column="top_timu" property="topTimu" jdbcType="VARCHAR" />
+    <result column="top_a" property="topA" jdbcType="VARCHAR" />
+    <result column="top_b" property="topB" jdbcType="VARCHAR" />
+    <result column="top_c" property="topC" jdbcType="VARCHAR" />
+    <result column="top_d" property="topD" jdbcType="VARCHAR" />
+    <result column="top_daan" property="topDaan" jdbcType="VARCHAR" />
+    <result column="top_daan_a" property="topDaanA" jdbcType="VARCHAR" />
+    <result column="top_daan_b" property="topDaanB" jdbcType="VARCHAR" />
+    <result column="top_daan_c" property="topDaanC" jdbcType="VARCHAR" />
+    <result column="top_daan_d" property="topDaanD" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 通过topId查询一个topic对象 -->
+  <select id="findOneBytopId" parameterType="String" resultMap="topicResultMap" >
+    select * from topic where top_id = #{topId};
+  </select>
+  <!-- 主键批量删除 -->
+  <delete id="deleteList">
+  	delete from topic where top_id in
+	<foreach collection="array" open="(" close=")" separator="," item="pk">
+		#{pk}
+	</foreach>
+  </delete>
+  <!-- 根据主键修改供应商信息 -->
+	<update id="update" parameterType="Topic" >
+		update topic set
+		top_type=#{topType},top_knowledge=#{topKnowledge},
+		top_nandu=#{topNandu},top_timu=#{topTimu},top_a=#{topDaan},top_b=#{topB},
+		top_c=#{topC},top_d=#{topD},top_daan=#{topDaan}
+		where
+		top_id=#{topId}	
+	</update>
+  <!-- 添加 -->
+  <insert id="add" parameterType="Topic">
+		insert into topic
+		(top_id,tea_id,top_type,top_knowledge,top_nandu,
+		top_timu,top_a,top_b,top_c,top_d,
+		top_daan,top_daan_a,top_daan_b,top_daan_c,top_daan_d)
+		values
+		(#{topId},#{teaId},#{topType},#{topKnowledge},#{topNandu},
+		#{topTimu},#{topA},#{topB},#{topC},#{topD},
+		#{topDaan},#{topDaanA},#{topDaanB},#{topDaanC},#{topDaanD});
+	</insert>
+	<!-- 通过多条件分页查询，返回数据集 私人的-->
+  <select id="selectPageListUse" parameterType="page" resultMap="topicResultMap" >
+    select * from topic 
+    <where>
+    	<if test="paramEntity.topType!=null">and top_type like #{paramEntity.topType}</if>
+    	<if test="paramEntity.topNandu!=null">and top_nandu like #{paramEntity.topNandu}</if>
+    	<if test="paramEntity.topKnowledge!=null">and top_knowledge like #{paramEntity.topKnowledge}</if>
+    	<if test="paramEntity.topTimu!=null">and top_timu like #{paramEntity.topTimu}</if>
+    	<if test="paramEntity.teaId!=null">and tea_id like #{paramEntity.teaId}</if>    
+    </where>
+	 limit #{start},#{rows}
+  </select>
+  
+  <!-- 通过多条件分页查询，返回总记录数 私人的-->
+  <select id="selectPageCountUse" parameterType="page" resultType="Integer">
+  	select count(1) from topic 
+  	 <where>
+    	<if test="paramEntity.topType!=null">and top_type like #{paramEntity.topType}</if>
+    	<if test="paramEntity.topNandu!=null">and top_nandu like #{paramEntity.topNandu}</if>
+    	<if test="paramEntity.topKnowledge!=null">and top_knowledge like #{paramEntity.topKnowledge}</if>
+    	<if test="paramEntity.topTimu!=null">and top_timu like #{paramEntity.topTimu}</if> 
+    	<if test="paramEntity.teaId!=null">and tea_id like #{paramEntity.teaId}</if>
+    </where>
+  </select>
+  <!-- 通过多条件分页查询，返回数据集 -->
+  <select id="selectPageListUseDyc" parameterType="page" resultMap="topicResultMap" >
+    select * from topic
+    <where>
+    	<if test="paramEntity.topType!=null">and top_type like #{paramEntity.topType}</if>
+    	<if test="paramEntity.topNandu!=null">and top_nandu like #{paramEntity.topNandu}</if>
+    	<if test="paramEntity.topKnowledge!=null">and top_knowledge like #{paramEntity.topKnowledge}</if>
+    	<if test="paramEntity.topTimu!=null">and top_timu like #{paramEntity.topTimu}</if>    
+    </where>
+	 limit #{start},#{rows}
+  </select>
+  
+  <!-- 通过多条件分页查询，返回总记录数 -->
+  <select id="selectPageCountUseDyc" parameterType="page" resultType="Integer">
+  	select count(1) from topic 
+  	 <where>
+    	<if test="paramEntity.topType!=null">and top_type like #{paramEntity.topType}</if>
+    	<if test="paramEntity.topNandu!=null">and top_nandu like #{paramEntity.topNandu}</if>
+    	<if test="paramEntity.topKnowledge!=null">and top_knowledge like #{paramEntity.topKnowledge}</if>
+    	<if test="paramEntity.topTimu!=null">and top_timu like #{paramEntity.topTimu}</if>    
+    </where>
+  </select>
+  
+  
+  
+  
+</mapper>

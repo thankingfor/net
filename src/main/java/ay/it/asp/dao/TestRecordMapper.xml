@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ay.it.asp.dao.TestRecordMapper" >
+  <resultMap id="testRecordResultMap" type="ay.it.asp.entity.TestRecord" >
+    <id column="test_record_id" property="testRecordId" jdbcType="VARCHAR" />
+    <result column="test_id" property="testId" jdbcType="VARCHAR" />
+    <result column="tea_id" property="teaId" jdbcType="VARCHAR" />
+    <result column="test_name" property="testName" jdbcType="VARCHAR" />
+    <result column="test_nandu" property="testNandu" jdbcType="VARCHAR" />
+    <result column="test_state" property="testState" jdbcType="VARCHAR" />
+    <result column="test_score" property="testScore" jdbcType="INTEGER" />
+    <result column="test_total" property="testTotal" jdbcType="INTEGER" />
+    <result column="test_time" property="testTime" jdbcType="INTEGER" />
+    <result column="test_deltime" property="testDeltime" jdbcType="DATE" />
+  </resultMap>
+  <!-- 添加 -->
+  <insert id="add" parameterType="TestRecord">
+		insert into test_record
+		(test_record_id,test_id,tea_id,test_name,test_nandu,test_score,
+		test_total,test_time,test_state,test_deltime)
+		values
+		(#{testRecordId},#{testId},#{teaId},#{testName},#{testNandu},#{testScore},
+		#{testTotal},#{testTime},#{testState},#{testDeltime});
+	</insert>
+  
+</mapper>

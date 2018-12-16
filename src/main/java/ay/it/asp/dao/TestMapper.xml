@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ay.it.asp.dao.TestMapper" >
+  <resultMap id="testResultMap" type="ay.it.asp.entity.Test" >
+    <id column="test_id" property="testId" jdbcType="VARCHAR" />
+    <result column="tea_id" property="teaId" jdbcType="VARCHAR" />
+    <result column="test_name" property="testName" jdbcType="VARCHAR" />
+    <result column="test_nandu" property="testNandu" jdbcType="VARCHAR" />
+    <result column="test_state" property="testState" jdbcType="VARCHAR" />
+    <result column="test_score" property="testScore" jdbcType="INTEGER" />
+    <result column="test_total" property="testTotal" jdbcType="INTEGER" />
+    <result column="test_time" property="testTime" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="testClassesResultMap" type="ay.it.asp.entity.Test" extends="testResultMap">
+  		<collection property="classesList" ofType="ay.it.asp.entity.Classes" >  
+            <id column="class_id" property="classId" jdbcType="VARCHAR" />
+    		<result column="class_name" property="className" jdbcType="VARCHAR" />
+   			<result column="class_yuanxi" property="classYuanxi" jdbcType="VARCHAR" />
+        </collection>  
+  </resultMap>
+  
+  
+  <!-- 多表联合查询,得到通过class_test得到class和test信息 -->
+  <select id="selectAllClassTest" parameterType="map" resultMap="testClassesResultMap" >
+    select t.test_id,t.test_name, c.class_id,c.class_name
+    from test t
+    right join class_test ct on t.test_id = ct.test_id
+    right join classes c on ct.class_id = c.class_id 
+    where t.test_id = #{testId} and c.class_id = #{classId};
+  </select>
+  
+  <!-- 完成试卷 -->
+  	<update id="testOk" parameterType="Test" >
+		UPDATE test SET test_state = #{testState} , test_score = #{testScore} where test_id = #{testId};
+	</update>
+  <!-- 查找单个数据 -->
+  <select id="findByTestId" parameterType="string" resultMap="testResultMap" >
+    select * from test where test_id = #{testId};
+  </select>
+  <!-- 主键批量删除 -->
+  <delete id="deleteList">
+  	delete from test where test_id in
+	<foreach collection="array" open="(" close=")" separator="," item="pk">
+		#{pk}
+	</foreach>
+  </delete>
+  	<!-- 增加试题total -->
+  	<update id="pulsTotal" parameterType="string" >
+		UPDATE test SET test_total = test_total+1 WHERE test_id =#{test_id} ;
+	</update>
+	<!-- 减少试题total -->
+  	<update id="delTotal" parameterType="string" >
+		UPDATE test SET test_total = test_total-1 WHERE test_id =#{test_id} ;
+	</update>
+  <!-- 根据主键修改供应商信息 -->
+	<update id="update" parameterType="Test" >
+		update test set
+		test_name=#{testName},test_nandu=#{testNandu},test_state=#{testState},
+		test_score=#{testScore},top_timu=#{testTotal},test_time=#{testTime},
+		where
+		test_id=#{testId}	
+	</update>
+  <!-- 添加 -->
+  <insert id="add" parameterType="Test">
+		insert into test
+		(test_id,tea_id,test_name,test_nandu,test_score,
+		test_total,test_time,test_state)
+		values
+		(#{testId},#{teaId},#{testName},#{testNandu},#{testScore},
+		#{testTotal},#{testTime},#{testState});
+	</insert>
+	<!-- 不分页返回数据集 私人的-->
+	<select id="selectAlltest" parameterType="string" resultMap="testResultMap" >
+    select * from test where tea_id like #{teaId};  
+    </select>
+	<!-- 通过多条件分页查询，返回数据集 私人的-->
+  <select id="selectPageListUse" parameterType="page" resultMap="testResultMap" >
+    select * from test 
+    <where>
+    	<if test="paramEntity.testName!=null">and test_name like #{paramEntity.testName}</if>
+    	<if test="paramEntity.testNandu!=null">and test_nandu like #{paramEntity.testNandu}</if>
+    	<if test="paramEntity.teaId!=null">and tea_id like #{paramEntity.teaId}</if>    
+    </where>
+	 limit #{start},#{rows}
+  </select>
+  
+  <!-- 通过多条件分页查询，返回总记录数 私人的-->
+  <select id="selectPageCountUse" parameterType="page" resultType="Integer">
+  	select count(1) from test 
+  	 <where>
+    	<if test="paramEntity.testName!=null">and test_name like #{paramEntity.testName}</if>
+    	<if test="paramEntity.testNandu!=null">and test_nandu like #{paramEntity.testNandu}</if>
+    	<if test="paramEntity.teaId!=null">and tea_id like #{paramEntity.teaId}</if> 
+    </where>
+  </select>
+  
+</mapper>

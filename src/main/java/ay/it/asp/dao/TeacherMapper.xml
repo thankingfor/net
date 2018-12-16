@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ay.it.asp.dao.TeacherMapper" >
+  <resultMap id="teacherResultMap" type="ay.it.asp.entity.Teacher" >
+    <id column="tea_id" property="teaId" jdbcType="VARCHAR" />
+    <result column="tea_pass" property="teaPass" jdbcType="VARCHAR" />
+    <result column="tea_name" property="teaName" jdbcType="VARCHAR" />
+    <result column="tea_sex" property="teaSex" jdbcType="VARCHAR" />
+    <result column="tea_phone" property="teaPhone" jdbcType="VARCHAR" />
+    <result column="tea_comedata" property="teaComedata" jdbcType="VARCHAR" />
+    <result column="tea_favorable" property="teaFavorable" jdbcType="VARCHAR" />
+    <result column="tea_words" property="teaWords" jdbcType="VARCHAR" />
+    <result column="tea_remark" property="teaRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 用户登陆 -->
+  <select id="login" parameterType="Teacher" resultMap="teacherResultMap">
+  	select * from teacher where tea_id =#{teaId} and tea_pass =#{teaPass} 
+  </select>
+  <!-- 修改个人信息 -->
+  <update id="update" parameterType="Teacher" >
+		update teacher set
+		tea_name=#{teaName},tea_sex=#{teaSex},tea_phone=#{teaPhone},
+		tea_comedata=#{teaComedata},tea_favorable=#{teaFavorable},tea_words=#{teaWords},tea_remark=#{teaRemark}
+		where
+		tea_id=#{teaId}	
+  </update>
+  <!-- 修改密码 -->
+  <update id="repass" parameterType="Teacher" >
+		update teacher set tea_pass=#{teaPass} where tea_id=#{teaId}	
+  </update>
+  
+  
+  
+  
+  
+  
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ay.it.asp.dao.ClassTestMapper" >
+  <resultMap id="classTestResultMap" type="ay.it.asp.entity.ClassTest" >
+    <id column="class_test_id" property="classTestId" jdbcType="VARCHAR" />
+    <result column="test_id" property="testId" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+    <result column="class_test_state" property="classTestState" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="testClassesAllResultMap" type="ay.it.asp.entity.ClassTest" extends="classTestResultMap">
+  		<association property="test" javaType="ay.it.asp.entity.Test">
+	    	<id column="test_id" property="testId"/>
+	    	<result column="test_name" property="testName"/>
+	    </association>
+	    <association property="classes" javaType="ay.it.asp.entity.Classes">
+	    	<id column="class_id" property="classId"/>
+	    	<result column="class_name" property="className"/>
+	    </association>
+  </resultMap>
+  
+   <!-- selectAllByTestId -->
+  <select id="selectAllByStuId" parameterType="string" resultMap="classTestResultMap">
+		select * from class_test where class_id = #{classId};
+	</select>
+  
+  <!-- 多表联合查询,得到通过class_test得到class和test信息 -->
+  <select id="selectAllClassTest" parameterType="map" resultMap="testClassesAllResultMap" >
+    select t.test_id,t.test_name, c.class_id,c.class_name,ct.class_test_state,ct.class_test_id
+    from test t
+    right join class_test ct on t.test_id = ct.test_id
+    right join classes c on ct.class_id = c.class_id 
+    where t.test_id = #{testId} and c.class_id = #{classId};
+  </select>
+  
+   <!-- selectAllByTestId -->
+  <select id="selectAllByTestId" parameterType="string" resultMap="classTestResultMap">
+		select * from class_test where test_id = #{testId};
+	</select>
+  <!-- orSave -->
+  <select id="orSave" parameterType="ClassTest" resultType="Integer">
+		select count(1) from class_test where test_id = #{testId} and class_id = #{classId};
+	</select>
+  <!-- 添加 -->
+  <insert id="add" parameterType="Tab">
+		insert into class_test
+		(class_test_id,test_id,class_id,class_test_state)
+		values
+		(#{classTestId},#{testId},#{classId},#{classTestState});
+	</insert>
+  
+</mapper>

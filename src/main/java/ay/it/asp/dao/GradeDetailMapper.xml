@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ay.it.asp.dao.GradeDetailMapper" >
+  <resultMap id="gradeDetailResultMap" type="ay.it.asp.entity.GradeDetail" >
+    <id column="grade_detail_id" property="gradeDetaiId" jdbcType="VARCHAR" />
+    <result column="grade_id" property="gradeId" jdbcType="VARCHAR" />
+    <result column="stu_score" property="stuScore" jdbcType="INTEGER" />
+    <result column="top_id" property="topId" jdbcType="VARCHAR" />
+    <result column="top_daan" property="topDaan" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- teaid查询多个 -->
+ <!--  <select id="selectAllclassId" parameterType="string" resultMap="tabResultMap">
+  	select * from tab where tea_id = #{teaId};
+  </select> -->
+  <!-- 添加 -->
+   <insert id="add" parameterType="GradeDetail">
+		insert into grade
+		(grade_detail_id,grade_id,stu_score,top_id,top_daan)
+		values
+		(#{gradeDetaiId},#{gradeId},#{stuScore},#{topId},#{topDaan});
+	</insert>
+  
+</mapper>

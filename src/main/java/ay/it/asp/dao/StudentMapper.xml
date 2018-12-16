@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ay.it.asp.dao.StudentMapper" >
+  <resultMap id="studentResultMap" type="ay.it.asp.entity.Student" >
+    <id column="stu_id" property="stuId" jdbcType="VARCHAR" />
+    <result column="stu_pass" property="stuPass" jdbcType="VARCHAR" />
+    <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+    <result column="stu_sex" property="stuSex" jdbcType="VARCHAR" />
+    <result column="stu_phone" property="stuPhone" jdbcType="VARCHAR" />
+    <result column="stu_comedata" property="stuComedata" jdbcType="VARCHAR" />
+    <result column="stu_favorable" property="stuFavorable" jdbcType="VARCHAR" />
+    <result column="stu_words" property="stuWords" jdbcType="VARCHAR" />
+    <result column="stu_remark" property="stuRemark" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectByClassId" parameterType="string" resultMap="studentResultMap">
+		select * from students where class_id = #{classId};
+	</select>
+   <select id="selectById" parameterType="string" resultMap="studentResultMap">
+		select * from students where stu_id = #{stuId};
+	</select>
+  <!-- 用户登陆 -->
+  <select id="login" parameterType="Student" resultMap="studentResultMap">
+  	select * from students where stu_id =#{stuId} and stu_pass =#{stuPass} 
+  </select>
+  <!-- 修改个人信息 -->
+  <update id="update" parameterType="Student" >
+		update students set
+		stu_name=#{stuName},stu_sex=#{stuSex},stu_phone=#{stuPhone},
+		stu_comedata=#{stuComedata},stu_favorable=#{stuFavorable},stu_words=#{stuWords},stu_remark=#{stuRemark}
+		where
+		stu_id=#{stuId}	
+  </update>
+  <!-- 修改密码 -->
+  <update id="repass" parameterType="Student" >
+		update students set stu_pass=#{stuPass} where stu_id=#{stuId}	
+  </update>
+  
+  
+  
+  
+  
+  
+</mapper>
