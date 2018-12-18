@@ -57,9 +57,9 @@
 			
 			<div title="模拟考试" data-options="selected:false">
 				<ul style="list-style: none;padding: 0px;margin:0px;">
-					<li style="padding: 6px;"><a href="${proPath}/base/goURL/student/selectAlltest.action" title="添加试卷"
+					<%-- <li style="padding: 6px;"><a href="${proPath}/base/goURL/student/selectAlltest.action" title="添加试卷"
 						style="text-decoration: none;display: block;font-weight:bold;">添加试卷</a>
-					</li>
+					</li> --%>
 					<li style="padding: 6px;"><a href="${proPath}/base/goURL/student/selectAlltest.action" title="我的试卷"
 						style="text-decoration: none;display: block;font-weight:bold;">我的试卷</a>
 					</li>

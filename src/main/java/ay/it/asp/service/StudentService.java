@@ -29,4 +29,6 @@ public interface StudentService extends BaseService<Student>{
 	public Grade findGrade(Student student, Test test);
 
 	public List<Grade> selectAllGrade(Student student);
+
+	public Grade selectBytestIdAndStuId(String stuId, String testId);
 }

@@ -15,7 +15,7 @@
 	 	</tr>
 	 	<c:forEach items="${listStudent }" var="s">
 		 	<tr align="center">
-		 		<td>${test.testId }</td>
+		 		<td>${tests.testName }</td>
 		 		<td>${s.stuId }</td>
 		 		<td>${s.stuName }</td>
 		 		<td>${s.grade.stuScore }</td>

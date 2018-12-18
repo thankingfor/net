@@ -48,5 +48,8 @@
 		values
 		(#{classTestId},#{testId},#{classId},#{classTestState});
 	</insert>
-  
+  	<!-- public void finish(String classTestId); -->
+  	<update id="finish">
+  		update class_test set class_test_state = "完成"  where class_test_id = #{classTestId}
+  	</update>
 </mapper>

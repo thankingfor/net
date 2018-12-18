@@ -116,6 +116,23 @@
 							alert("请选择需要完成的试卷！");
 						}
 					}
+				},'-',{
+					iconCls: 'icon-edit',
+					text:'添加试题',
+					handler: function(){
+						var array = $('#dg').datagrid("getSelections");
+						if(array.length!=1){
+							alert("请选择需要修改的记录，并且只能选中一条！");
+							return false;							
+						}
+						var testId = array[0].testId;
+						if(array[0].testState == "完成"){
+							alert("试卷已经完成 不能添加");
+							return false;
+						}
+						$('#testId').val(testId);
+						$("#ff").submit();
+					}
 				}],	
 				
 				columns : [ [{
@@ -155,13 +172,13 @@
 </script>
 </head>
 <body>
-<a id="btn" href="#" class="easyui-linkbutton" >添加试题</a> 
+<!-- <a id="btn" href="#" class="easyui-linkbutton" >添加试题</a>  -->
 <table id="dg"></table>
 <form action="${proPath}/test/addTiInTest.action" method="post" id="ff">
 	<input id="testId" type="hidden" name="testId" value="">
 </form>
 <script type="text/javascript">
-			$("#btn").click(function() {
+			/* $("#btn").click(function() {
 				var array = $('#dg').datagrid("getSelections");
 				if(array.length!=1){
 					alert("请选择需要修改的记录，并且只能选中一条！");
@@ -174,7 +191,7 @@
 				}
 				$('#testId').val(testId);
 				$("#ff").submit();
-			});
+			}); */
 	</script>
 </body>
 </html>

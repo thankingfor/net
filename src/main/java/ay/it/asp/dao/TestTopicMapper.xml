@@ -24,8 +24,8 @@
     select count(1) from test_topic where top_id = #{topId} and test_id = #{testId};
   </select>
    <!-- 用topid查询,返回 -->
-  <select id="findoneB" parameterType="Map" resultMap="testTopicResultMap" >
-    select * from test_topic where top_id = #{topId} and test_id = #{testId};
+  <select id="findoneB"  resultMap="testTopicResultMap" >
+    select * from test_topic where top_id = #{param2} and test_id = #{param1};
   </select>
   <!-- 添加试题 -->
   <insert id="addTi" parameterType="TestTopic">

@@ -18,7 +18,7 @@
 			 	<tr align="center">
 			 		<td>${s.topTimu }</td>
 			 		<td>
-			 		<input type="text" name="${s.topId }" />
+			 		<input type="text" name="${s.topId }" data-tid="${s.topId }"/>
 			 		</td>
 			 	</tr>
 		 	</c:forEach>
@@ -26,17 +26,18 @@
 		<h2>选择题</h2>
 		<table align="center" border="1">
 		 	<tr align="center">
-		 		<td width="100">题目</td>
-		 		<td width="300">答案</td>
+		 		<th width="100">题目</td>
+		 		<th width="300">答案</td>
 		 	</tr>
 		 	<c:forEach items="${danxuanlist }" var="s">
 			 	<tr align="center">
 			 		<td>${s.topTimu }</td>
-			 		<td>
-			 		<input type="radio" name="${s.topId }" value="${s.topA }"/>${s.topA }<br/>
-			 		<input type="radio" name="${s.topId }" value="${s.topB }"/>${s.topB }<br/>
-			 		<input type="radio" name="${s.topId }" value="${s.topC }"/>${s.topC }<br/>
-			 		<input type="radio" name="${s.topId }" value="${s.topD }"/>${s.topD }<br/>
+			 		<td >
+			 		<input type="hidden" class="topid" value="${s.topId }">
+			 		<input  type="radio" name="${s.topId }" value="${s.topA }"/>${s.topA }<br/>
+			 		<input  type="radio" name="${s.topId }" value="${s.topB }"/>${s.topB }<br/>
+			 		<input  type="radio" name="${s.topId }" value="${s.topC }"/>${s.topC }<br/>
+			 		<input  type="radio" name="${s.topId }" value="${s.topD }"/>${s.topD }<br/>
 			 		</td>
 			 	</tr>
 		 	</c:forEach>
@@ -46,11 +47,33 @@
 
 	<script type="text/javascript">
 		$("#btn").click(function() {
-			alert("进来乐");
-			var arr = [];
-			for (i=0;i<$("input").length;i++) {
-				arr[i] = $("input")[i].val();   
-				alert("arr["+i+"]"+arr[i]);
+			if($(this).linkbutton('options').disabled == false){
+				var arrTopDaan = [];
+				var arrTopid = [];
+				var xuanzeti = $("[type='text']");
+				var danxuanti = $(".topid");
+				var i = 0;
+				for (i=0;i<xuanzeti.length;i++) {
+					arrTopid[i] = xuanzeti.eq(i).data("tid");
+					arrTopDaan[i] = xuanzeti.eq(i).val();
+					//console.log("arr["+i+"]"+arrTopDaan[i]+","+arrTopid[i]);
+				} 
+				for(i = 0;i < danxuanti.length; i++){
+					var topid = danxuanti.eq(i).val();
+					arrTopid[i+xuanzeti.length] = topid;
+					arrTopDaan[i+xuanzeti.length] = $("input:radio[name="+topid+"]:checked").val();
+				}
+				$.ajax({
+					  url: "${proPath}/student/finish.action",
+					  type:"POST",
+					  traditional:true,
+					  dataType:'json',
+					  data:{topId:arrTopid,topDaan:arrTopDaan,gradeId:"${grade.gradeId }"},
+					  success: function(map){
+						  alert("你的分数为："+map.grade.stuScore);
+						  $('#btn').linkbutton('disable')
+					  }
+				 });
 			}
 		});
 	</script>

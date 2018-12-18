@@ -94,7 +94,10 @@ public class StudentServiceImpl extends BaseServiceImpl<Student> implements Stud
 		int score = 0;
 		if(topDaan.equals(topic.getTopDaan())){
 			//通过grade中的testId查询出testtopic表中topId对应的socre
+			grade = gradeMapper.findbyId(grade.getGradeId());
+			System.out.println(grade.getTestId()+","+topic.getTopId());
 			TestTopic tt = testTopicMapper.findoneB(grade.getTestId(),topic.getTopId());
+			System.out.println(tt);
 			score = tt.getTopScore();
 		}
 		GradeDetail gradeDetail = new GradeDetail();
@@ -124,12 +127,19 @@ public class StudentServiceImpl extends BaseServiceImpl<Student> implements Stud
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("stuId", student.getStuId());
 		map.put("testId", test.getTestId());
-		g = gradeMapper.findByMap(map);
+		//g = gradeMapper.findByMap(map);
+		g = gradeMapper.selectBytestIdAndStuId(student.getStuId(), test.getTestId());
+		System.out.println(g);
 		return g;
 	}
 
 	public List<Grade> selectAllGrade(Student student) {
 		return gradeMapper.selectAllGrade(student);
+	}
+
+	@Override
+	public Grade selectBytestIdAndStuId(String stuId, String testId) {
+		return gradeMapper.selectBytestIdAndStuId(stuId,testId);
 	}
 
 }

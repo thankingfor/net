@@ -15,4 +15,6 @@ public interface ClassTestService extends BaseService<ClassTest>{
 	public Page<ClassTest> selectPageUse(Page<ClassTest> page, List<Test> listTest);
 
 	public List<ClassTest> selectAllClassTest(Teacher teacher);
+
+	public void finish(String classTestId);
 }

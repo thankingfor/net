@@ -26,95 +26,37 @@
 				}, 
 				
 				toolbar: [{
-					iconCls: 'icon-add',
-					text:'新增',
-					handler: function(){
-						parent.$('#win').window({    
-							title :'添加试题',						
-						    width:600,    
-						    height:400,    
-						    modal:true,
-						    content:"<iframe src='${proPath}/base/goURL/test/add.action' height='100%' width='100%' frameborder='0px' ></iframe>"  
-						}); 
-					}
-				},'-',{
 					iconCls: 'icon-edit',
 					text:'查看',
 					handler: function(){
+						var array = $('#dg').datagrid("getSelections");
+						if(array.length!=1){
+							alert("请选择需要修改的记录，并且只能选中一条！");
+							return false;							
+						}
+						var testId = array[0].testId;
+						var stuId = $('#stuId').val();
 						parent.$('#win').window({    
-							title :'已选题目',
+							title :'查询',
 						    width:600,    
 						    height:400,    
 						    modal:true,
-						    content:"<iframe src='${proPath}/base/goURL/test/selectAlltestTopic.action' height='100%' width='100%' frameborder='0px' ></iframe>"  
-						}); 
+						    content:"<iframe src='${proPath}/student/showresult.action?testId="+testId+"&stuId="+stuId+"' height='100%' width='100%' frameborder='0px' ></iframe>"  
+						});
+						
 					}
-				},'-',{
-					iconCls: 'icon-remove',
-					text:'删除',
-					handler: function(){
-						var array = $('#dg').datagrid("getSelections");
-						if(array.length>0){
-						var ids = new Array();
-						for (i = 0; i < array.length; i++) {
-							ids[i] = array[i].testId;
-							//alert(ids[i]);
-						}
-						parent.$.messager.confirm('添加对话框', '您确认要删除吗？', function(r) {
-							if (r) {
-								$.ajax({
-								  url: "${proPath}/test/deleteTest.action",
-								  type:"POST",
-								  traditional:true,
-								  data:{pks:ids},
-								  success: function(html){
-									 alert("删除成功");
-								    $("#dg").datagrid("reload");
-								    $("#dg").datagrid("clearSelections");
-								  },
-								  dataType:'json'
-									});
-								}
-							});
-						}else{
-							alert("请选择需要删除的记录！");
-						}
-					}
-				},'-',{
+				},{
 					iconCls: 'icon-edit',
-					text:'完成',
+					text:'开始答题',
 					handler: function(){
 						var array = $('#dg').datagrid("getSelections");
-						if(array.length>0){
-						var ids = new Array();
-						for (i = 0; i < array.length; i++) {
-							ids[i] = array[i].testId;
-							//alert(ids[i]);
+						if(array.length!=1){
+							alert("请选择需要修改的记录，并且只能选中一条！");
+							return false;							
 						}
-						parent.$.messager.confirm('添加对话框', '您确认要完成试卷的试题添加么吗？', function(r) {
-							if (r) {
-								$.ajax({
-								  url: "${proPath}/test/testOk.action",
-								  type:"POST",
-								  traditional:true,
-								  data:{pks:ids},
-								  success: function(html){
-									alert("成功");
-								    $("#dg").datagrid("reload");
-								    $("#dg").datagrid("clearSelections");
-								  },
-								  error: function(html){
-									alert("成功");
-								    $("#dg").datagrid("reload");
-								    $("#dg").datagrid("clearSelections");
-								  },
-								  dataType:'json'
-									});
-								}
-							});
-						}else{
-							alert("请选择需要完成的试卷！");
-						}
+						var testId = array[0].testId;
+						$('#testId').val(testId);
+						$("#ff").submit();
 					}
 				}],	
 				
@@ -151,14 +93,14 @@
 </script>
 </head>
 <body>
-<a id="btn" href="#" class="easyui-linkbutton" >开始答题</a> 
+<!-- <a id="btn" href="#" class="easyui-linkbutton" >开始答题</a>  -->
 <table id="dg"></table>
 <form action="${proPath}/student/daTi.action" method="post" id="ff">
 	<input id="testId" type="hidden" name="testId" value="">
 	<input id="stuId" type="hidden" name="stuId" value="${sessionScope.student.stuId }">
 </form>
 <script type="text/javascript">
-			$("#btn").click(function() {
+			/* $("#btn").click(function() {
 				var array = $('#dg').datagrid("getSelections");
 				if(array.length!=1){
 					alert("请选择需要修改的记录，并且只能选中一条！");
@@ -167,7 +109,7 @@
 				var testId = array[0].testId;
 				$('#testId').val(testId);
 				$("#ff").submit();
-			});
+			}); */
 </script>
 </body>
 </html>

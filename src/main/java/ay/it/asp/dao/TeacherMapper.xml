@@ -13,7 +13,7 @@
     <result column="tea_remark" property="teaRemark" jdbcType="VARCHAR" />
   </resultMap>
   <!-- 用户登陆 -->
-  <select id="login" parameterType="Teacher" resultMap="teacherResultMap">
+  <select id="logins" parameterType="Teacher" resultMap="teacherResultMap">
   	select * from teacher where tea_id =#{teaId} and tea_pass =#{teaPass} 
   </select>
   <!-- 修改个人信息 -->

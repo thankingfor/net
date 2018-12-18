@@ -15,4 +15,6 @@ public interface ClassTestMapper extends BaseMapper<ClassTest>{
 	public List<ClassTest> selectAllClassTest(HashMap<String, Object> map);
 
 	public List<ClassTest> selectAllByStuId(String classId);
+
+	public void finish(String classTestId);
 }

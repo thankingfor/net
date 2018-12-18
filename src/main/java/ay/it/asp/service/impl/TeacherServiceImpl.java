@@ -8,8 +8,9 @@ import ay.it.asp.service.TeacherService;
 @Service("teacherService")
 public class TeacherServiceImpl extends BaseServiceImpl<Teacher> implements TeacherService{
 
+	
 	public Teacher login(Teacher teacher) {
-		return teacherMapper.login(teacher);
+		return teacherMapper.logins(teacher);
 	}
 
 	public int repass(Teacher teacher) {

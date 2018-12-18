@@ -32,6 +32,21 @@ public class ClassTestAction extends BaseAction{
 	private TestService testService;
 	@Resource
 	private StudentService studentService;
+	
+	/**
+	 * 完成本版试卷
+	 * @param classes
+	 * @param test
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/finish")
+	public String finish(String classTestId,HttpServletRequest request){
+		classTestService.finish(classTestId);
+		return "forward:/WEB-INF/student/success.jsp";
+	}
+	
+	
 	/**通过classId和testId查看学生成绩
 	 * 1.通过classId查询所有学生得到List<Student>
 	 * 2.通过stuId和testId得到List<Grade>
@@ -41,18 +56,17 @@ public class ClassTestAction extends BaseAction{
 	public String result(Classes classes,Test test,HttpServletRequest request){
 		System.out.println("----action.classes"+classes);
 		System.out.println("------action.test"+test);
-		Test t = testService.findByTestId(test.getTestId());
-		System.out.println("--------action.t"+t);
+		test = testService.findByTestId(test.getTestId());
+		System.out.println("--------action.t"+test);
 		//通过classId查询所有学生得到List<Student>
 		List<Student> listStudent = studentService.selectByClassId(classes.getClassId());
-		Grade grade = new Grade();
 		//通过stuId和testId得到List<Grade>
+		Grade grade = new Grade();
 		for (Student student : listStudent) {
 			grade = studentService.findGrade(student,test);
-			//grade.setTest(t);
 			student.setGrade(grade);
 		}
-		request.setAttribute("test", t);
+		request.setAttribute("tests", test);
 		request.setAttribute("listStudent", listStudent);
 		return "forward:/WEB-INF/grade/result.jsp";
 	}

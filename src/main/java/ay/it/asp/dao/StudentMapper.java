@@ -2,7 +2,6 @@ package ay.it.asp.dao;
 
 import java.util.List;
 
-import ay.it.asp.entity.ClassTest;
 import ay.it.asp.entity.Student;
 
 public interface StudentMapper extends BaseMapper<Student>{

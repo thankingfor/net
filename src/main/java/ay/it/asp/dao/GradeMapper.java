@@ -13,5 +13,9 @@ public interface GradeMapper extends BaseMapper<Grade>{
 	Grade findByMap(HashMap<String, Object> map);
 
 	List<Grade> selectAllGrade(Student student);
+
+	Grade findbyId(String gradeId);
+
+	Grade selectBytestIdAndStuId(String stuId, String testId);
 	
 }

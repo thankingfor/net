@@ -75,4 +75,9 @@ public class ClassTestServiceImpl extends BaseServiceImpl<ClassTest> implements 
 		return list;
 	}
 
+	@Override
+	public void finish(String classTestId) {
+		classTestMapper.finish(classTestId);
+	}
+
 }

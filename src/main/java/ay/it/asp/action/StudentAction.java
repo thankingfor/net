@@ -1,7 +1,9 @@
 package ay.it.asp.action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +54,22 @@ public class StudentAction extends BaseAction{
 		return "forward:/WEB-INF/student/result.jsp";
 	}
 	
+	/**
+	 * 通过学生id试卷id确认唯一的数据成绩信息
+	 * @param student
+	 * @param testId
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/showresult")
+	public String Testresult(String stuId,String testId,HttpServletRequest request) throws Exception{
+		System.out.println("------action.stuId"+stuId+"testId="+testId);
+		Grade grade = studentService.selectBytestIdAndStuId(stuId,testId);
+		request.setAttribute("grade", grade);
+		return "forward:/WEB-INF/student/resultOneGrade.jsp";
+	}
+	
 	/*答题结束
 	 * 1.把传来的topId查询Topic ok
 	 * 2.添加grade_detail数据 ok
@@ -59,8 +77,9 @@ public class StudentAction extends BaseAction{
 	 * 4.跳转新的页面,把题目,自己写的答案,正确答案显示出来,最后显示考试的试卷名(grade表有testId)称和总分(有stu_score字段) ok
 	 * 5.实现页面  (未完成,等学会传值在做)
 	 * */
+	@ResponseBody
 	@RequestMapping(value="/finish")
-	public String finish(String[] topId,String[] topDaan,Grade grade,HttpServletRequest request) throws Exception{
+	public Map<String,Object> finish(String[] topId,String[] topDaan,Grade grade,HttpServletRequest request) throws Exception{
 		int totalScore = 0;
 		List<Topic> topicList = new ArrayList<Topic>();
 		List<GradeDetail> gradeDetailList = new ArrayList<GradeDetail>();
@@ -83,12 +102,23 @@ public class StudentAction extends BaseAction{
 		request.setAttribute("grade", grade);
 		//试卷情况
 		request.setAttribute("test", test);
-		return "forward:/WEB-INF/student/finish.jsp";
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("Topic", topicList);
+		map.put("gradeDetailList", gradeDetailList);
+		map.put("grade", grade);
+		map.put("test", test);
+		return map;
 	}
 	
 	/*开始答题,通过testId,填写grade方法*/
 	@RequestMapping(value="/daTi")
 	public String repass(Student student,Test test,HttpServletRequest request) throws Exception{
+		//判断是否完成
+		Grade grade2 = studentService.selectBytestIdAndStuId(student.getStuId(),test.getTestId());
+		if(grade2!=null) {
+			request.setAttribute("grade", grade2);
+			return "forward:/WEB-INF/student/resultOneGrade.jsp";
+		}
 		System.out.println("---action.student:"+student);
 		System.out.println("---action.test:"+test);
 		//保存test到grade,得到gradeId,并且存到request域中

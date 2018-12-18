@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ay.it.asp.dao.GradeDetailMapper" >
   <resultMap id="gradeDetailResultMap" type="ay.it.asp.entity.GradeDetail" >
-    <id column="grade_detail_id" property="gradeDetaiId" jdbcType="VARCHAR" />
+    <id column="grade_detail_id" property="gradeDetailId" jdbcType="VARCHAR" />
     <result column="grade_id" property="gradeId" jdbcType="VARCHAR" />
     <result column="stu_score" property="stuScore" jdbcType="INTEGER" />
     <result column="top_id" property="topId" jdbcType="VARCHAR" />
@@ -14,10 +14,10 @@
   </select> -->
   <!-- 添加 -->
    <insert id="add" parameterType="GradeDetail">
-		insert into grade
+		insert into grade_detail
 		(grade_detail_id,grade_id,stu_score,top_id,top_daan)
 		values
-		(#{gradeDetaiId},#{gradeId},#{stuScore},#{topId},#{topDaan});
+		(#{gradeDetailId},#{gradeId},#{stuScore},#{topId},#{topDaan});
 	</insert>
   
 </mapper>

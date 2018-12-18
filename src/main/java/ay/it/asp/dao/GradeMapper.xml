@@ -29,5 +29,12 @@
 		values
 		(#{gradeId},#{stuId},#{stuScore},#{testId},#{testState});
 	</insert>
-  
+	<!-- Grade findbyId(String gradeId); -->
+	<select id="findbyId" resultMap="gradeResultMap">
+		select * from grade where grade_id = #{gradeId};
+	</select>
+	<!-- Grade selectBytestIdAndStuId(String stuId, String testId); -->
+  	<select id="selectBytestIdAndStuId" resultMap="gradeResultMap">
+		select * from grade where stu_id = #{param1} and test_id = #{param2};
+	</select>
 </mapper>

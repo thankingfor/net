@@ -41,6 +41,7 @@ public class TeacherAction extends BaseAction{
 	public String login(Teacher teacher,HttpServletRequest request,HttpSession session){
 		System.out.println("---action.teacher:"+teacher);
 		Teacher tea = teacherService.login(teacher);
+		System.out.println("---action.tea:"+tea);
 		if(tea!=null){
 			//存session
 			session.setAttribute("teacher", tea);
