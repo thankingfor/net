@@ -16,7 +16,7 @@
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl"
-			value="jdbc:mysql://47.95.196.58:3306/asp" />
+			value="jdbc:mysql://localhost:3306/asp" />
 		<property name="user" value="root" />
 		<property name="password" value="123456" />
 	</bean>
